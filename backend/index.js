@@ -12,6 +12,10 @@ mongoose.connect(url, {
   useUnifiedTopology: true,
   useFindAndModify: true,
 });
+
+mongoose.connection.on('open', () => {
+  console.log('yay')
+})
 // creating message schema
 let messageSchema = new Schema({
   text: {
@@ -45,7 +49,7 @@ let userSchema = new Schema({
 
 // model
 const Message = mongoose.model("messages", messageSchema);
-const User = mongoose.model("users", userSchema);
+const User = mongoose.model("users2", userSchema);
 
 // initialize express
 const app = express();

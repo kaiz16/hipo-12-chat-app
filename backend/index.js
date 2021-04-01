@@ -6,7 +6,6 @@ const mongoose = require("mongoose");
 // import cors
 const cors = require("cors");
 
-const Schema = mongoose.Schema;
 mongoose.connect(url, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -16,40 +15,6 @@ mongoose.connect(url, {
 mongoose.connection.on('open', () => {
   console.log('yay')
 })
-// creating message schema
-let messageSchema = new Schema({
-  text: {
-    type: String,
-    required: true,
-  },
-  username: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now(),
-  },
-});
-
-let userSchema = new Schema({
-  firstName: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  username: {
-    type: String,
-    required: true
-  }
-})
-
-// model
-const Message = mongoose.model("messages", messageSchema);
-const User = mongoose.model("users2", userSchema);
 
 // initialize express
 const app = express();
@@ -64,33 +29,8 @@ app.use(cors(corsOptions));
 // tell express to use json
 app.use(express.json())
 
-// GET to get all the messages
-app.get("/messages", (request, response) => {
-  response.send([]);
-});
+app.use('/messages', require('./controllers/message.js'))
 
-app.get('/users', async (req, res) => {
-   const users = await User.find({})
-
-   res.send(users)
-})
-
-app.post('/newUser', async (req, res) => {
-  let username = req.body.username
-  let email = req.body.email
-  let firstName = req.body.firstName
-
-  let user = new User({
-    firstName: firstName,
-    email: email,
-    username: username,
-  })
-
-  await user.save()
-
-  res.send(user)
-})
-
-app.listen(3000, () => {
-  console.log("app is listening on port 3000");
+app.listen(5000, () => {
+  console.log("app is listening on port 5000");
 });

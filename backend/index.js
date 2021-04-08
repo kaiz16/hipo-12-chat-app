@@ -32,6 +32,6 @@ app.use(express.json())
 
 app.use('/messages', require('./controllers/message.js'))
 
-app.listen(5000, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log("app is listening on port 5000");
 });

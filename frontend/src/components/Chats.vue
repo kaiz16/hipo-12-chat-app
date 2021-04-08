@@ -22,7 +22,7 @@ export default {
     }
   },
   async mounted(){
-    const data = await axios.get('http://localhost:3000/getMessages')
+    const data = await axios.get('https://chat-app-hipo-12.herokuapp.com/messages')
     this.messages = data.data
   },
 };

@@ -1,10 +1,11 @@
 // import express
 const express = require("express");
-const url =
-  "mongodb+srv://admin:123@cluster0.gxxib.mongodb.net/database?retryWrites=true&w=majority";
 const mongoose = require("mongoose");
 // import cors
 const cors = require("cors");
+// load env variables
+require('dotenv').config()
+const url = process.env.MongoDB
 
 mongoose.connect(url, {
   useNewUrlParser: true,

@@ -1,4 +1,6 @@
 Chat app
+### API address
+`https://chat-app-hipo-12.herokuapp.com`
 
 ### Install nodemon (-g means global)
 ```

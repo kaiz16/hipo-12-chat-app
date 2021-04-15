@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import SendMessage from "./SendMessage";
 export default {
   components: {
@@ -22,7 +21,8 @@ export default {
     }
   },
   async mounted(){
-    const data = await axios.get('https://chat-app-hipo-12.herokuapp.com/messages')
+    const data = await this.$axios.get('https://chat-app-hipo-12.herokuapp.com/messages')
+    console.log(data)
     this.messages = data.data
   },
 };

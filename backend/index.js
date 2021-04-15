@@ -20,9 +20,9 @@ mongoose.connection.on('open', () => {
 // initialize express
 const app = express();
 
-// only allow from the origin
+// Allow from everywhere. In actual deployment only allow trusted sites
 const corsOptions = {
-  origin: "http://localhost:8080",
+  origin: "*",
 };
 
 app.use(cors(corsOptions));

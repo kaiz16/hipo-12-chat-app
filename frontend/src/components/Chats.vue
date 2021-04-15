@@ -1,9 +1,12 @@
 <template>
   <section>
-    <div class="chats">
-      <div class="message" v-for="(message, index) in messages" v-bind:key="index">
-        <p>{{ message.text }}</p>
+    <div class="wrapper">
+      <div class="chat" v-for="(message, index) in messages" v-bind:key="index">
+        <span class="name">{{ message.username }}</span>
+        <span class="time">{{ message.createdAt }}</span>
+        <p class="message">{{ message.text }}</p>
       </div>
+      <p v-if="isLoading">Loading...</p>
     </div>
     <send-message></send-message>
   </section>
@@ -13,33 +16,66 @@
 import SendMessage from "./SendMessage";
 export default {
   components: {
-    "send-message": SendMessage
+    "send-message": SendMessage,
   },
-  data(){
+  data() {
     return {
-      messages: null
-    }
+      messages: null,
+      isLoading: false,
+    };
   },
-  async mounted(){
-    const data = await this.$axios.get('https://chat-app-hipo-12.herokuapp.com/messages')
-    console.log(data)
-    this.messages = data.data
+  mounted() {
+   setInterval(() => {
+    this.fetchMessages();
+   }, 3000);
+  },
+  methods: {
+    async fetchMessages() {
+      this.isLoading = true
+      const data = await this.$axios.get(
+        "https://chat-app-hipo-12.herokuapp.com/messages"
+      );
+      this.isLoading = false
+      this.messages = data.data;
+    },
   },
 };
 </script>
 
-<style>
+<style scoped>
 section {
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex: 1 0;
 }
 
-.message {
-  background-color: #4d62d5;
-  width: fit-content;
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: auto;
+  width: 100%;
+}
+
+.chat {
+  text-align: left;
   padding: 10px;
-  border-radius: 15px;
-  color: white;
-  margin: 4px auto;
+  margin: 10px;
+}
+
+.chat .message {
+  background: #fff;
+  color: #000;
+  padding: 10px;
+  width: fit-content;
+  border-radius: 0 10px 10px 10px;
+}
+
+.chat .time {
+  color: #000;
+  display: none;
 }
 
 p {
